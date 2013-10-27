@@ -145,6 +145,10 @@ Snippets to create and access variables.
             <td><code>-></code></td>
             <td><code>$this->var = $var;</code></td>
         </tr>
+        <tr>
+            <td><code>ptr</code></td>
+            <td><code>print_r($var);</code></td>
+        </tr>
     </tbody>
 </table>
 
