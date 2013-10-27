@@ -1,0 +1,6 @@
+<snippet>
+        <content><![CDATA[\$this->${1:var} = \$${1};]]></content>
+        <tabTrigger>-></tabTrigger>
+        <scope>source.php</scope>
+        <description>$this->var = $var;</description>
+</snippet>

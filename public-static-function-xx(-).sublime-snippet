@@ -1,0 +1,9 @@
+<snippet>
+    <content><![CDATA[public static function ${2:FunctionName}(${3:arguments})
+{
+    ${0:# code...}
+}]]></content>
+    <tabTrigger>pusfun</tabTrigger>
+    <scope>source.php</scope>
+    <description>public static function …</description>
+</snippet>

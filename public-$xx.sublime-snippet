@@ -1,0 +1,8 @@
+<snippet>
+    <content><![CDATA[/** @var ${2:type} */
+public \$${1:var};
+]]></content>
+    <tabTrigger>puv</tabTrigger>
+    <scope>source.php</scope>
+    <description>public $var;</description>
+</snippet>

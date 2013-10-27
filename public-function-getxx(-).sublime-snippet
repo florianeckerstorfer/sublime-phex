@@ -1,0 +1,9 @@
+<snippet>
+    <content><![CDATA[public function get${1/(.*)/\u$1/}()
+{
+    return \$this->$1;
+}]]></content>
+    <tabTrigger>get</tabTrigger>
+    <scope>source.php</scope>
+    <description>public function getxx() { return $this->xx; }</description>
+</snippet>

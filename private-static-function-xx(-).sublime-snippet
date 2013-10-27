@@ -1,0 +1,9 @@
+<snippet>
+    <content><![CDATA[private static function ${2:FunctionName}(${3:arguments})
+{
+    ${0:# code...}
+}]]></content>
+    <tabTrigger>pisfun</tabTrigger>
+    <scope>source.php</scope>
+    <description>private static function …</description>
+</snippet>

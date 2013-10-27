@@ -1,0 +1,8 @@
+<snippet>
+    <content><![CDATA[/** @var ${2:type} */
+private \$${1:var};
+]]></content>
+    <tabTrigger>piv</tabTrigger>
+    <scope>source.php</scope>
+    <description>private $var;</description>
+</snippet>

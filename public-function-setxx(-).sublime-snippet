@@ -1,0 +1,11 @@
+<snippet>
+    <content><![CDATA[public function set${1/(.*)/\u$1/}(\$$1)
+{
+    \$this->$1 = \$$1;
+
+    return \$this;
+}]]></content>
+    <tabTrigger>set</tabTrigger>
+    <scope>source.php</scope>
+    <description>public function setxx(xx) { $this->xx = $xx; return $this; }</description>
+</snippet>

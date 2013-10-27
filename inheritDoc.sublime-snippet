@@ -1,0 +1,8 @@
+<snippet>
+    <content><![CDATA[/**
+ * {@inheritDoc}
+ */]]></content>
+    <tabTrigger>indoc</tabTrigger>
+    <scope>source.php</scope>
+    <description>/** {@inheritDoc} */</description>
+</snippet>

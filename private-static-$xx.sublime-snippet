@@ -1,0 +1,8 @@
+<snippet>
+    <content><![CDATA[/** @var ${2:type} */
+private static \$${1:var};
+]]></content>
+    <tabTrigger>pisv</tabTrigger>
+    <scope>source.php</scope>
+    <description>private static $var;</description>
+</snippet>

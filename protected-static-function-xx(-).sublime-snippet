@@ -1,0 +1,9 @@
+<snippet>
+    <content><![CDATA[protected static function ${2:FunctionName}(${3:arguments})
+{
+    ${0:# code...}
+}]]></content>
+    <tabTrigger>posfun</tabTrigger>
+    <scope>source.php</scope>
+    <description>protected static function …</description>
+</snippet>

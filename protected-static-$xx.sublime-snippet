@@ -1,0 +1,8 @@
+<snippet>
+    <content><![CDATA[/** @var ${2:type} */
+protected static \$${1:var};
+]]></content>
+    <tabTrigger>posv</tabTrigger>
+    <scope>source.php</scope>
+    <description>protected static $var;</description>
+</snippet>
