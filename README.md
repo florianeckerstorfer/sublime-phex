@@ -149,6 +149,18 @@ Snippets to create and access variables.
             <td><code>ptr</code></td>
             <td><code>print_r($var);</code></td>
         </tr>
+        <tr>
+            <td><code>preptr</code></td>
+            <td><code>echo '&lt;pre&gt;'.print_r($var, true).'&lt;/pre&gt;';</code></td>
+        </tr>
+        <tr>
+            <td><code>vd</code></td>
+            <td><code>var_dump($var);</code></td>
+        </tr>
+        <tr>
+            <td><code>prevd</code></td>
+            <td><code>echo '&lt;pre&gt;'; var_dump($var); echo '&lt;/pre&gt;';</code></td>
+        </tr>
     </tbody>
 </table>
 
