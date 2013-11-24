@@ -1,6 +1,7 @@
 <snippet>
-    <content><![CDATA[public function __construct(${1:\$${2:foo}${3: = ${4:null}}}) {
-	${2/.+/$this->$0 = \$$0;/}$0
+    <content><![CDATA[public function __construct(${1:arguments})
+{
+	${0:// ...}
 }]]></content>
     <tabTrigger>con</tabTrigger>
     <scope>source.php</scope>
