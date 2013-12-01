@@ -1,0 +1,14 @@
+<snippet>
+    <content><![CDATA[/**
+* ${1:InterfaceName}
+*/
+interface ${1:InterfaceName}${2: extends ${3:ParentInterface}}
+{
+    ${0:// code...}
+}
+
+]]></content>
+    <tabTrigger>in</tabTrigger>
+    <scope>source.php</scope>
+    <description>interface …</description>
+</snippet>
