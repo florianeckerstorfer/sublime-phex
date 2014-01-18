@@ -1,12 +1,16 @@
-FePHP for Sublime Text
-======================
+PHP Extended for Sublime Text
+=============================
 
-FePHP is based on the PHP package provided by Sublime Text 3 and extends and modifies it in various ways. Currently there is no possibility to extend the `PHP.tmlanguage`, thats way it is a replacement instead of an addition.
+PHP Extended is based on the PHP package provided by Sublime Text 3 and extends and modifies it in various ways.
+Currently there is no possibility to extend the `PHP.tmlanguage`, therefore this is a replacement instead of an
+addition.
+
 
 Author
 ------
 
 - [Florian Eckerstorfer](http://florian.ec) ([Twitter](http://twitter.com/Florian_), [App.net](http://app.net/florian))
+
 
 Installation
 ------------
@@ -21,12 +25,14 @@ First you have to disable the default `PHP` package in your preferences:
 
 Then navigate into your `Packages` directory and clone this repository:
 
-    $ git clone https://github.com/florianeckerstorfer/fe-php-sublime FePHP
+    $ git clone https://github.com/florianeckerstorfer/sublime-php-extended php-extended
+
 
 Snippets
 --------
 
-FePHP contains all snippets from the default PHP package from Sublime Text 3 (some slightly modified to match the Symfony 2 coding standard) and adds various new snippets.
+PHP Extended contains all snippets from the default PHP package from Sublime Text 3 (some slightly modified to match the
+Symfony 2 coding standard) and adds various new snippets.
 
 The snippets are designed to be as short as possible and still intuitive.
 
@@ -191,11 +197,13 @@ Currently FePHP adds syntax highlighting for a few things. I hope to extend this
 
 ### Annotations
 
-The default `PHP.tmlanguage` only has support for PHPDoc annotations. FePHP adds support for various popular (or often by me) libraries and their annotations.
+The default `PHP.tmlanguage` only has support for PHPDoc annotations. FePHP adds support for various popular libraries
+and their annotations.
 
 #### Doctrine MongoDB ODM
 
-FePHP has syntax highlighting for annotations provided by [Doctrine MongoDB ODM](http://www.doctrine-project.org/projects/mongodb-odm.html).
+FePHP has syntax highlighting for annotations provided by
+[Doctrine MongoDB ODM](http://www.doctrine-project.org/projects/mongodb-odm.html).
 
 - `MongoDB\AlsoLoad`
 - `MongoDB\Bin`
@@ -276,7 +284,8 @@ FePHP has syntax highlighting for annotations provided by [Doctrine ORM](http://
 
 #### Symfony2 Validation
 
-FePHP has syntax highlighting for annotations provided by [Symfony2 Validation](http://symfony.com/doc/current/book/validation.html).
+FePHP has syntax highlighting for annotations provided by
+[Symfony2 Validation](http://symfony.com/doc/current/book/validation.html).
 
 - `Assert\All`
 - `Assert\Blank`
@@ -335,7 +344,8 @@ FePHP has syntax highlighting for annotations provided by [PHPUnit](https://gith
 
 #### Gedmo Doctrine Extensions
 
-FePHP has syntax highlighting for annotations provided by [Gedmo Doctrine Extensions](https://github.com/l3pp4rd/DoctrineExtensions).
+FePHP has syntax highlighting for annotations provided by
+[Gedmo Doctrine Extensions](https://github.com/l3pp4rd/DoctrineExtensions).
 
 - `Gedmo\Slug`
 - `Gedmo\SoftDeleteable`
@@ -344,6 +354,7 @@ FePHP has syntax highlighting for annotations provided by [Gedmo Doctrine Extens
 
 #### Braincrafted Validation
 
-FePHP has syntax highlighting for annotations provided by [Braincrafted Validation](https://github.com/braincrafted/validation-bundle).
+FePHP has syntax highlighting for annotations provided by
+[Braincrafted Validation](https://github.com/braincrafted/validation-bundle).
 
 - `BraincraftedAssert\Enum`
