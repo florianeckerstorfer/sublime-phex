@@ -60,7 +60,10 @@ class PhexCreateClassCommand(PhexInputBase):
         class_name_start = text.rfind("\\")
         if class_name_start == -1:
             class_name_start = 0
-        class_name = text[(class_name_start+1):]
+        if text[(class_name_start)] == "\\":
+            class_name = text[(class_name_start+1):]
+        else:
+            class_name = text[class_name_start:]
         namespace_name = text[:class_name_start]
         namespace = ""
         if len(namespace_name) > 0:
