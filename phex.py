@@ -92,9 +92,8 @@ class PhexCreateClassCommand(PhexInputBase):
 def createClassFile(file, contents, msg):
     if contents is None:
         return
-    if os.path.exists(file):
-        sublime.error_message(msg)
-        return
+    if not os.path.exists(os.path.dirname(file)):
+        os.makedirs(os.path.dirname(file))
     open(file, "w")
     view = sublime.active_window().open_file(file)
     view.set_syntax_file("Packages/php-extended/PHP.tmLanguage")
