@@ -27,6 +27,14 @@ Then navigate into your `Packages` directory and clone this repository:
 
     $ git clone https://github.com/florianeckerstorfer/sublime-php-extended php-extended
 
+Commands
+--------
+
+Phex contains some commands to make it easier for you to work with PHP.
+
+### Create Class
+
+The create class command allows you to create a new PHP class. This currently only works if you are working in a project. By default the class is created based on the project root folder and if there is a `src` folder in your project root this will be used as base. You can prefix the class with `~` to create the class in the currently active directory, that is, in the directory of the open file.
 
 Snippets
 --------
