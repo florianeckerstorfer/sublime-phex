@@ -1,0 +1,10 @@
+{
+    // Default author used in PHPDoc when creating new classes and interfaces
+    "phex_default_author": "",
+
+    // Default license used in PHPDoc when creating new classes and interfaces
+    "phex_default_license": "",
+
+    // Default copyright used in PHPDoc when creating new classes and interfaces
+    "phex_default_copyright": ""
+}

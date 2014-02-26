@@ -8,7 +8,9 @@ class Pref:
     def load():
         settings = sublime.load_settings('phex.sublime-settings')
 
-        # Pref.translation_format     = settings.get('subfony_translation_format')
+        Pref.default_author    = settings.get('phex_default_author')
+        Pref.default_copyright = settings.get('phex_default_copyright')
+        Pref.default_license   = settings.get('phex_default_license')
 
 def plugin_loaded():
     Pref.load()
@@ -55,7 +57,7 @@ class PhexCreateClassCommand(PhexInputBase):
     INPUT_PANEL_CAPTION = 'Class name:'
 
     def on_done(self, text):
-        content = "<?php\n\n%namespace%class %class_name%\n{\n}\n"
+        content = "<?php\n\n%namespace%/**\n * %class_name%\n *\n%author%%copyright%%license% */\nclass %class_name%\n{\n}\n"
         filename = text.replace("\\", "/") + ".php"
         class_name_start = text.rfind("\\")
         if class_name_start == -1:
@@ -69,8 +71,21 @@ class PhexCreateClassCommand(PhexInputBase):
         if len(namespace_name) > 0:
             namespace = "namespace "+namespace_name+";\n\n"
 
+        author = ""
+        if Pref.default_author:
+            author = " * @author    "+Pref.default_author+"\n"
+        copyright = ""
+        if Pref.default_copyright:
+            copyright = " * @copyright "+Pref.default_copyright+"\n"
+        license = ""
+        if Pref.default_license:
+            license = " * @license   "+Pref.default_license+"\n"
+
         content = content.replace("%class_name%", class_name)
         content = content.replace("%namespace%", namespace)
+        content = content.replace("%author%", author)
+        content = content.replace("%copyright%", copyright)
+        content = content.replace("%license%", license)
 
         createClassFile(filename, content, "Path does not exist.")
 
