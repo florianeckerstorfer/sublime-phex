@@ -1,15 +1,7 @@
-PHP Extended for Sublime Text
-=============================
+Phex for Sublime Text
+=====================
 
-PHP Extended is based on the PHP package provided by Sublime Text 3 and extends and modifies it in various ways.
-Currently there is no possibility to extend the `PHP.tmlanguage`, therefore this is a replacement instead of an
-addition.
-
-
-Author
-------
-
-- [Florian Eckerstorfer](http://florian.ec) ([Twitter](http://twitter.com/Florian_), [App.net](http://app.net/florian))
+Phex extends the PHP support provided by Sublime Text 3. It adds additional snippets (PSR-comptabile), extended syntax highlighting and useful commands. Currently there is no possibility to extend the `PHP.tmlanguage`, therefore this is a replacement instead of an addition.
 
 
 Installation
@@ -25,7 +17,8 @@ First you have to disable the default `PHP` package in your preferences:
 
 Then navigate into your `Packages` directory and clone this repository:
 
-    $ git clone https://github.com/florianeckerstorfer/sublime-php-extended php-extended
+    $ git clone https://github.com/florianeckerstorfer/sublime-phex phex
+
 
 Commands
 --------
@@ -34,7 +27,12 @@ Phex contains some commands to make it easier for you to work with PHP.
 
 ### Create Class
 
-The create class command allows you to create a new PHP class. This currently only works if you are working in a project. By default the class is created based on the project root folder and if there is a `src` folder in your project root this will be used as base. You can prefix the class with `~` to create the class in the currently active directory, that is, in the directory of the open file.
+The *Create Class* command allows you to create a new PHP class. This currently only works if you are working in a project. By default the class is created based on the project root folder and if there is a `src` folder in your project root this will be used as base. You can prefix the class with `~` to create the class in the currently active directory, that is, in the directory of the open file.
+
+### Create Interface
+
+Works like the *Create Class* command, but creates an interface instead of a class.
+
 
 Snippets
 --------
@@ -201,16 +199,16 @@ Snippets for PHPDoc.
 Syntax Highlighting
 -------------------
 
-Currently FePHP adds syntax highlighting for a few things. I hope to extend this in the future.
+Currently Phex adds syntax highlighting for a few things. I hope to extend this in the future.
 
 ### Annotations
 
-The default `PHP.tmlanguage` only has support for PHPDoc annotations. FePHP adds support for various popular libraries
+The default `PHP.tmlanguage` only has support for PHPDoc annotations. Phex adds support for various popular libraries
 and their annotations.
 
 #### Doctrine MongoDB ODM
 
-FePHP has syntax highlighting for annotations provided by
+Phex has syntax highlighting for annotations provided by
 [Doctrine MongoDB ODM](http://www.doctrine-project.org/projects/mongodb-odm.html).
 
 - `MongoDB\AlsoLoad`
@@ -257,7 +255,7 @@ FePHP has syntax highlighting for annotations provided by
 
 #### Doctrine ORM
 
-FePHP has syntax highlighting for annotations provided by [Doctrine ORM](http://www.doctrine-project.org/projects/orm).
+Phex has syntax highlighting for annotations provided by [Doctrine ORM](http://www.doctrine-project.org/projects/orm).
 
 - `ORM\Column`
 - `ORM\ChangeTrackingPolicy`
@@ -292,7 +290,7 @@ FePHP has syntax highlighting for annotations provided by [Doctrine ORM](http://
 
 #### Symfony2 Validation
 
-FePHP has syntax highlighting for annotations provided by
+Phex has syntax highlighting for annotations provided by
 [Symfony2 Validation](http://symfony.com/doc/current/book/validation.html).
 
 - `Assert\All`
@@ -328,7 +326,7 @@ FePHP has syntax highlighting for annotations provided by
 
 #### PHPUnit
 
-FePHP has syntax highlighting for annotations provided by [PHPUnit](https://github.com/sebastianbergmann/phpunit/).
+Phex has syntax highlighting for annotations provided by [PHPUnit](https://github.com/sebastianbergmann/phpunit/).
 
 - `assert`
 - `backupGlobals`
@@ -352,7 +350,7 @@ FePHP has syntax highlighting for annotations provided by [PHPUnit](https://gith
 
 #### Gedmo Doctrine Extensions
 
-FePHP has syntax highlighting for annotations provided by
+Phex has syntax highlighting for annotations provided by
 [Gedmo Doctrine Extensions](https://github.com/l3pp4rd/DoctrineExtensions).
 
 - `Gedmo\Slug`
@@ -362,7 +360,13 @@ FePHP has syntax highlighting for annotations provided by
 
 #### Braincrafted Validation
 
-FePHP has syntax highlighting for annotations provided by
+Phex has syntax highlighting for annotations provided by
 [Braincrafted Validation](https://github.com/braincrafted/validation-bundle).
 
 - `BraincraftedAssert\Enum`
+
+
+Author
+------
+
+- [Florian Eckerstorfer](http://florian.ec) ([Twitter](http://twitter.com/Florian_), [App.net](http://app.net/florian))

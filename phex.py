@@ -69,7 +69,25 @@ class PhexCreateClassCommand(PhexInputBase):
         content = content.replace("%copyright%", getCopyrightPhpDoc(input))
         content = content.replace("%license%", getLicensePhpDoc(input))
 
-        createClassFile(filename, content, "Path does not exist.")
+        createPhpFile(filename, content)
+
+class PhexCreateInterfaceCommand(PhexInputBase):
+    INPUT_PANEL_CAPTION = 'Interface name:'
+
+    def on_done(self, input):
+        content = "<?php\n\n%namespace%/**\n * %interface_name%\n *\n%author%%copyright%%license% */\ninterface %interface_name%\n{\n}\n"
+        filename = getFilenameFromInput(input)
+
+        # Remove the ~ (if it exists) from the beginning of the input
+        input = re.sub("^~", "", input)
+
+        content = content.replace("%interface_name%", getInterfaceName(input))
+        content = content.replace("%namespace%", getNamespace(input))
+        content = content.replace("%author%", getAuthorPhpDoc(input))
+        content = content.replace("%copyright%", getCopyrightPhpDoc(input))
+        content = content.replace("%license%", getLicensePhpDoc(input))
+
+        createPhpFile(filename, content)
 
 """
     Returns the @author PHPDoc
@@ -110,6 +128,7 @@ def getClassNameStart(input):
         class_name_start = 0
 
     return class_name_start
+
 """
     Returns the class name of the given input.
 
@@ -122,6 +141,12 @@ def getClassName(input):
         return input[(class_name_start+1):]
     else:
         return input[class_name_start:]
+
+"""
+    Returns the interface name of the given input.
+"""
+def getInterfaceName(input):
+    return getClassName(input)+"Interface"
 
 """
     Returns the namespace from the given input.
@@ -184,7 +209,7 @@ def getCurrentDirectory():
     Creates the given file (and the directory if necessary) and writes the content to it.
     It also sets the syntax highlighting to PHP
 """
-def createClassFile(file, contents, msg):
+def createPhpFile(file, contents):
     if contents is None:
         return
     if not os.path.exists(os.path.dirname(file)):

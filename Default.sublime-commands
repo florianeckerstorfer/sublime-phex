@@ -2,5 +2,9 @@
     {
         "caption": "Phex: Create Class",
         "command": "phex_create_class"
+    },
+    {
+        "caption": "Phex: Create Interface",
+        "command": "phex_create_interface"
     }
 ]
