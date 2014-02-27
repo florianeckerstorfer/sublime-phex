@@ -2,6 +2,7 @@ import sublime
 import sublime_plugin
 import os
 import re
+import json
 
 class Pref:
     @staticmethod
@@ -184,15 +185,55 @@ def getFilenameFromInput(input):
     Returns the base directory.
 """
 def getBaseDirectory():
-    data = sublime.active_window().project_data()
-    path = os.path.realpath(
-        os.path.dirname(sublime.active_window().project_file_name())+"/"+data["folders"][0]["path"]
-    )
+    if sublime.active_window().project_file_name() is not None:
+        data = sublime.active_window().project_data()
+        current_dir = os.path.realpath(
+            os.path.dirname(sublime.active_window().project_file_name())+"/"+data["folders"][0]["path"]
+        )
+    else:
+        current_dir = getCurrentDirectory()
+        while current_dir is not "/" and not os.path.exists(current_dir+"/src"):
+            current_dir = os.path.dirname(current_dir)
 
-    if os.path.exists(path+"/src"):
-        path += "/src"
+    if os.path.exists(current_dir+"/src"):
+        current_dir += "/src"
 
-    return path
+    return current_dir
+
+def getComposerNamespaces():
+    data = getComposerData()
+    namespaces = {}
+    try:
+        for (namespace, path) in data["autoload"]["psr-4"].items():
+            namespaces[namespace] = path
+    except KeyError:
+        pass
+
+    try:
+        for (namespace, path) in data["autoload"]["psr-0"].items():
+            namespaces[namespace] = path
+    except KeyError:
+        pass
+
+    return namespaces
+
+"""
+    Returns the data from Composer file
+"""
+def getComposerData():
+    current_dir = getCurrentDirectory()
+    while not current_dir == "/" and not os.path.exists(current_dir+"/composer.json"):
+        current_dir = os.path.dirname(current_dir)
+
+    composerFilename = current_dir+"/composer.json"
+    if not os.path.exists(composerFilename):
+        return null
+
+    json_data=open(composerFilename)
+    data = json.load(json_data)
+    json_data.close()
+
+    return data
 
 """
     Returns the directory of the currently active file.
@@ -200,10 +241,6 @@ def getBaseDirectory():
 def getCurrentDirectory():
     return os.path.realpath(os.path.dirname(sublime.active_window().active_view().file_name()))
 
-
-# class PhexTestCommand(sublime_plugin.WindowCommand):
-#     def run(self):
-#         sublime.message_dialog(getCurrentDirectory())
 
 """
     Creates the given file (and the directory if necessary) and writes the content to it.
@@ -225,4 +262,10 @@ def createPhpFile(file, contents):
 def insertAndSave(view, contents):
     view.run_command("insert_snippet", {"contents": contents})
     view.run_command("save")
+
+# class PhexTestCommand(sublime_plugin.WindowCommand):
+#     def run(self):
+#         namespaces = getComposerNamespaces()
+#         for (key,value) in namespaces.items():
+#             sublime.message_dialog(key+" => "+value)
 
