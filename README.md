@@ -49,7 +49,7 @@ When the *Create Class* command is invoked with `Phex\Foo\Bar` a class with the 
 - Namespace: `Phex\Foo\Bar`
 - Filename: `src/Foo/Bar.php`
 
-![Create PSR-4 Class Screencast](https://raw.github.com/florianeckerstorfer/sublime-phex/master/docs/img/create-class-)psr-4.gif
+![Create PSR-4 Class Screencast](https://raw.github.com/florianeckerstorfer/sublime-phex/master/docs/img/create-class-psr-4.gif)
 
 ### Create Interface
 
