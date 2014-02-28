@@ -12,6 +12,7 @@ class Pref:
         Pref.default_author    = settings.get('phex_default_author')
         Pref.default_copyright = settings.get('phex_default_copyright')
         Pref.default_license   = settings.get('phex_default_license')
+        Pref.default_source_dir = settings.get('phex_default_source_dir')
 
 def plugin_loaded():
     Pref.load()
@@ -24,48 +25,28 @@ class PhexBase(sublime_plugin.WindowCommand):
     def window(self):
         return self.view.window()
 
-    def run_shell_command(self, command, working_dir):
-        if not command:
-            return False
-
-        if working_dir == '/' or working_dir == '':
-            sublime.status_message('You\'re not in a Symfony2 application.')
-            return
-
-        self.view.window().run_command("exec", {
-            "cmd": command,
-            "shell": False,
-            "working_dir": working_dir,
-            "file_regex": ""
-        })
-        self.display_results()
-        return True
-
-    def build_cmd(self, cmd):
-        cmd.insert(0, Pref.php_bin)
-        cmd.insert(1, Pref.console_bin)
-        cmd.append('--no-interaction')
-
-        return cmd
-
-
 class PhexInputBase(PhexBase):
     def run(self):
         self.window.show_input_panel(self.INPUT_PANEL_CAPTION, '', self.on_done, None, None)
         self.view = self.window.active_view()
+
 
 class PhexCreateClassCommand(PhexInputBase):
     INPUT_PANEL_CAPTION = 'Class name:'
 
     def on_done(self, input):
         content = "<?php\n\n%namespace%/**\n * %class_name%\n *\n%author%%copyright%%license% */\nclass %class_name%\n{\n}\n"
-        filename = getFilenameFromInput(input)
+        if re.search("^~", input):
+            relative = True
+            input = re.sub("^~", "", input)
+        else:
+            relative = False
 
-        # Remove the ~ (if it exists) from the beginning of the input
-        input = re.sub("^~", "", input)
+        namespace_name = getNamespaceName(input, relative)
+        filename = getFilenameFromInput(input, namespace_name, relative, False)
 
         content = content.replace("%class_name%", getClassName(input))
-        content = content.replace("%namespace%", getNamespace(input))
+        content = content.replace("%namespace%", getNamespace(namespace_name))
         content = content.replace("%author%", getAuthorPhpDoc(input))
         content = content.replace("%copyright%", getCopyrightPhpDoc(input))
         content = content.replace("%license%", getLicensePhpDoc(input))
@@ -77,18 +58,89 @@ class PhexCreateInterfaceCommand(PhexInputBase):
 
     def on_done(self, input):
         content = "<?php\n\n%namespace%/**\n * %interface_name%\n *\n%author%%copyright%%license% */\ninterface %interface_name%\n{\n}\n"
-        filename = getFilenameFromInput(input)
 
-        # Remove the ~ (if it exists) from the beginning of the input
-        input = re.sub("^~", "", input)
+        if re.search("^~", input):
+            relative = True
+            input = re.sub("^~", "", input)
+        else:
+            relative = False
+
+        namespace_name = getNamespaceName(input, relative)
+        filename = getFilenameFromInput(input, namespace_name, relative, True)
 
         content = content.replace("%interface_name%", getInterfaceName(input))
-        content = content.replace("%namespace%", getNamespace(input))
+        content = content.replace("%namespace%", getNamespace(namespace_name))
         content = content.replace("%author%", getAuthorPhpDoc(input))
         content = content.replace("%copyright%", getCopyrightPhpDoc(input))
         content = content.replace("%license%", getLicensePhpDoc(input))
 
         createPhpFile(filename, content)
+
+
+def getProjectSetting(setting_name):
+    data = getProjectData()
+    try:
+        return data["settings"][setting_name]
+    except KeyError:
+        return None
+
+def getProjectRoot():
+    if sublime.active_window().project_file_name() is not None:
+        data = sublime.active_window().project_data()
+        current_dir = os.path.realpath(
+            os.path.dirname(sublime.active_window().project_file_name())+"/"+data["folders"][0]["path"]
+        )
+    else:
+        current_dir = getWorkingDirectory()
+        if not current_dir:
+            sublime.message_dialog("Could not find project root or current working directory.")
+            return None
+
+        while current_dir is not "/" and not isRootDir(current_dir):
+            current_dir = os.path.dirname(current_dir)
+
+    return current_dir
+
+def isRootDir(root_dir):
+    if os.path.exists(root_dir+"/.sublime-project"):
+        return True
+
+    if os.path.exists(root_dir+"/.composer.json"):
+        return True
+
+    if os.path.exists(root_dir+"/src"):
+        return True
+
+    if os.path.exists(root_dir+"/lib"):
+        return True
+
+    return False
+
+def getSourceDir(project_root):
+    source_dir = getProjectSetting("source_dir")
+    if source_dir and os.path.exists(project_root+"/"+source_dir):
+        return source_dir
+
+    source_dir = Pref.default_source_dir
+    if source_dir and os.path.exists(project_root+"/"+source_dir):
+        return source_dir
+
+    source_dir = "src"
+    if os.path.exists(project_root+"/"+source_dir):
+        return source_dir
+
+    source_dir = "lib"
+    if os.path.exists(project_root+"/"+source_dir):
+        return source_dir
+
+    return ""
+
+def getSourceRoot(project_root):
+    source_dir = getSourceDir(project_root)
+    if source_dir:
+        source_dir = "/"+source_dir
+
+    return project_root+source_dir
 
 """
     Returns the @author PHPDoc
@@ -154,15 +206,27 @@ def getInterfaceName(input):
 
     The returned string includes the namespace statement.
 """
-def getNamespace(input):
-    class_name_start = getClassNameStart(input)
-
-    namespace_name = input[:class_name_start]
+def getNamespace(namespace_name):
     namespace = ""
     if len(namespace_name) > 0:
         namespace = "namespace "+namespace_name+";\n\n"
 
     return namespace
+
+def getNamespaceName(input, relative = False):
+    class_name_start = getClassNameStart(input)
+
+    namespace_name = input[:class_name_start]
+
+    if relative:
+        prefix = getWorkingDirectory().replace(getSourceRoot(getProjectRoot())+"/", "")
+        sublime.message_dialog("prefix: "+prefix)
+        if len(prefix) > 0:
+            if len(namespace_name) > 0:
+                prefix += "\\"
+            namespace_name = prefix+namespace_name
+
+    return namespace_name
 
 """
     Returns the filename for the given input.
@@ -172,56 +236,50 @@ def getNamespace(input):
     If the input is prefixed with `~` return the path based on the currently active view, otherwise return the path
     based from the guessted base directory.
 """
-def getFilenameFromInput(input):
-    if re.search("^~", input):
-        input = re.sub("^~", "", input)
+def getFilenameFromInput(input, namespace, relative = False, interface = False):
+    if relative:
         path = getCurrentDirectory()
     else:
-        path = getBaseDirectory()
+        path = getSourceRoot(getProjectRoot())
+        psr4Namespaces = getComposerPsr4Namespaces()
+        for (ns, nspath) in psr4Namespaces.items():
+            ns = re.sub("\\$", "", ns)
+            if namespace.find(ns) == 0:
+                input = input.replace(ns, "")
 
-    return path+"/"+input.replace("\\", "/") + ".php"
+    interface_part = ""
+    if interface:
+        interface_part = "Interface"
 
-"""
-    Returns the base directory.
-"""
-def getBaseDirectory():
+    return path+"/"+input.replace("\\", "/")+interface_part+".php"
+
+def getProjectData():
     if sublime.active_window().project_file_name() is not None:
-        data = sublime.active_window().project_data()
-        current_dir = os.path.realpath(
-            os.path.dirname(sublime.active_window().project_file_name())+"/"+data["folders"][0]["path"]
-        )
-    else:
-        current_dir = getCurrentDirectory()
-        while current_dir is not "/" and not os.path.exists(current_dir+"/src"):
-            current_dir = os.path.dirname(current_dir)
+        return sublime.active_window().project_data()
 
-    if os.path.exists(current_dir+"/src"):
-        current_dir += "/src"
+    return {}
 
-    return current_dir
+"""
+    Returns the directory of the currently active file.
+"""
+def getWorkingDirectory():
+    if not sublime.active_window():
+        return None
+    if not sublime.active_window().active_view():
+        return None
+    if not sublime.active_window().active_view().file_name():
+        return None
 
-def getComposerNamespaces():
-    data = getComposerData()
-    namespaces = {}
-    try:
-        for (namespace, path) in data["autoload"]["psr-4"].items():
-            namespaces[namespace] = path
-    except KeyError:
-        pass
-
-    try:
-        for (namespace, path) in data["autoload"]["psr-0"].items():
-            namespaces[namespace] = path
-    except KeyError:
-        pass
-
-    return namespaces
+    return os.path.realpath(os.path.dirname(sublime.active_window().active_view().file_name()))
 
 """
     Returns the data from Composer file
 """
 def getComposerData():
     current_dir = getCurrentDirectory()
+    if not current_dir:
+        current_dir = getProjectRoot()
+
     while not current_dir == "/" and not os.path.exists(current_dir+"/composer.json"):
         current_dir = os.path.dirname(current_dir)
 
@@ -235,12 +293,15 @@ def getComposerData():
 
     return data
 
-"""
-    Returns the directory of the currently active file.
-"""
-def getCurrentDirectory():
-    return os.path.realpath(os.path.dirname(sublime.active_window().active_view().file_name()))
-
+def getComposerPsr4Namespaces():
+    data = getComposerData()
+    try:
+        namespaces = {}
+        for (namespace, path) in data["autoload"]["psr-4"].items():
+            namespaces[namespace] = path
+        return namespaces
+    except KeyError:
+        return {}
 
 """
     Creates the given file (and the directory if necessary) and writes the content to it.
@@ -263,9 +324,10 @@ def insertAndSave(view, contents):
     view.run_command("insert_snippet", {"contents": contents})
     view.run_command("save")
 
-# class PhexTestCommand(sublime_plugin.WindowCommand):
-#     def run(self):
-#         namespaces = getComposerNamespaces()
-#         for (key,value) in namespaces.items():
-#             sublime.message_dialog(key+" => "+value)
+class PhexTestCommand(sublime_plugin.WindowCommand):
+    def run(self):
+        project_root = getProjectRoot()
+        sublime.message_dialog("project_root: "+project_root)
+        sublime.message_dialog("source_dir: "+getSourceDir(project_root))
+        sublime.message_dialog("source_root: "+getSourceRoot(project_root))
 
