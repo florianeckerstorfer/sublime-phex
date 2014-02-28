@@ -29,6 +29,25 @@ Phex contains some commands to make it easier for you to work with PHP.
 
 The *Create Class* command allows you to create a new PHP class. This currently only works if you are working in a project. By default the class is created based on the project root folder and if there is a `src` folder in your project root this will be used as base. You can prefix the class with `~` to create the class in the currently active directory, that is, in the directory of the open file.
 
+PSR-4 is supported by the *Create Class* command, except when using relative names (`~` operator). Suppose the following `composer.json` exists in the project root directory:
+
+```json
+{
+    "autoload": {
+        "psr-4": {
+            "Phex\\": "src"
+        }
+    }
+}
+```
+
+When the *Create Class* command is invoked with `Phex\Foo\Bar` a class with the following properties is created:
+
+- Class name: `Bar`
+- Namespace: `Phex\Foo\Bar`
+- Filename: `src/Foo/Bar.php`
+
+
 ### Create Interface
 
 Works like the *Create Class* command, but creates an interface instead of a class.
