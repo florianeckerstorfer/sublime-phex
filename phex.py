@@ -244,6 +244,7 @@ def getFilenameFromInput(input, namespace, relative = False, interface = False):
         psr4Namespaces = getComposerPsr4Namespaces()
         for (ns, nspath) in psr4Namespaces.items():
             ns = re.sub("\\$", "", ns)
+            namespace += "\\"
             if namespace.find(ns) == 0:
                 input = input.replace(ns, "")
 
