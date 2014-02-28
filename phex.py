@@ -324,10 +324,10 @@ def insertAndSave(view, contents):
     view.run_command("insert_snippet", {"contents": contents})
     view.run_command("save")
 
-class PhexTestCommand(sublime_plugin.WindowCommand):
-    def run(self):
-        project_root = getProjectRoot()
-        sublime.message_dialog("project_root: "+project_root)
-        sublime.message_dialog("source_dir: "+getSourceDir(project_root))
-        sublime.message_dialog("source_root: "+getSourceRoot(project_root))
+# class PhexTestCommand(sublime_plugin.WindowCommand):
+#     def run(self):
+#         project_root = getProjectRoot()
+#         sublime.message_dialog("project_root: "+project_root)
+#         sublime.message_dialog("source_dir: "+getSourceDir(project_root))
+#         sublime.message_dialog("source_root: "+getSourceRoot(project_root))
 

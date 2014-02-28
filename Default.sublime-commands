@@ -6,9 +6,5 @@
     {
         "caption": "Phex: Create Interface",
         "command": "phex_create_interface"
-    },
-    {
-        "caption": "Phex: Test",
-        "command": "phex_test"
     }
 ]
