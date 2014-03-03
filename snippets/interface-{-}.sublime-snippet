@@ -1,7 +1,7 @@
 <snippet>
     <content><![CDATA[/**
-* ${1:InterfaceName}
-*/
+ * ${1:InterfaceName}
+ */
 interface ${1:InterfaceName}${2: extends ${3:ParentInterface}}
 {
     ${0:// code...}
