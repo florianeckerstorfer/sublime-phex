@@ -20,14 +20,3 @@ class PhexCreateInterfaceCommand(PhexInputBase):
         content = content.replace("%license%", getLicensePhpDoc(input))
 
         createPhpFile(filename, content)
-
-    def on_update(self, input):
-        match = getNamespaceAutocompletion(input)
-
-        if not match == None:
-            self.input_panel_view.run_command("anf_replace", {"content": match})
-        else:
-            pass
-
-    def on_cancel(self):
-        pass
