@@ -1,0 +1,10 @@
+<?php
+
+%namespace_statement%/**
+ * %class_name%
+ *
+ * %author_phpdoc%%copyright_phpdoc%%license_phpdoc% */
+class %class_name%
+{
+    ${0}
+}
