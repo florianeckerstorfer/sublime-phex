@@ -29,14 +29,6 @@ class PhexBase(sublime_plugin.WindowCommand):
 
 class PhexInputBase(PhexBase):
     def run(self):
-        self.window.show_input_panel(self.INPUT_PANEL_CAPTION, '', self.on_done, None, None)
-        self.view = self.window.active_view()
-
-
-class PhexCreateClassCommand(PhexInputBase):
-    INPUT_PANEL_CAPTION = 'Class name:'
-
-    def run(self):
         self.input_panel_view = self.window.show_input_panel(
             self.INPUT_PANEL_CAPTION,
             "",
@@ -50,6 +42,10 @@ class PhexCreateClassCommand(PhexInputBase):
         self.input_panel_view.settings().set("tab_completion", False)
         self.input_panel_view.settings().set("translate_tabs_to_spaces", False)
         self.input_panel_view.settings().set("anf_panel", True)
+        self.view = self.window.active_view()
+
+class PhexCreateClassCommand(PhexInputBase):
+    INPUT_PANEL_CAPTION = 'Class name:'
 
     def on_done(self, input):
         content = "<?php\n\n%namespace%/**\n * %class_name%\n *\n%author%%copyright%%license% */\nclass %class_name%\n{\n}\n"
@@ -83,21 +79,6 @@ class PhexCreateClassCommand(PhexInputBase):
 
 class PhexCreateInterfaceCommand(PhexInputBase):
     INPUT_PANEL_CAPTION = 'Interface name:'
-
-    def run(self):
-        self.input_panel_view = self.window.show_input_panel(
-            self.INPUT_PANEL_CAPTION,
-            "",
-            self.on_done,
-            self.on_update,
-            self.on_cancel
-        )
-
-        self.input_panel_view.set_name(VIEW_NAME)
-        self.input_panel_view.settings().set("auto_complete_commit_on_tab", False)
-        self.input_panel_view.settings().set("tab_completion", False)
-        self.input_panel_view.settings().set("translate_tabs_to_spaces", False)
-        self.input_panel_view.settings().set("anf_panel", True)
 
     def on_done(self, input):
         content = "<?php\n\n%namespace%/**\n * %interface_name%\n *\n%author%%copyright%%license% */\ninterface %interface_name%\n{\n}\n"
@@ -319,13 +300,12 @@ def getNamespaceName(input, relative = False):
 
     if relative:
         prefix = getWorkingDirectory().replace(getSourceRoot(getProjectRoot())+"/", "")
-        sublime.message_dialog("prefix: "+prefix)
         if len(prefix) > 0:
             if len(namespace_name) > 0:
                 prefix += "\\"
             namespace_name = prefix+namespace_name
 
-    return namespace_name
+    return namespace_name.replace("/", "\\")
 
 """
     Returns the filename for the given input.
