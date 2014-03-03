@@ -57,7 +57,7 @@ def getNamespaceAutocompletion(input):
 
     input_namespace = ""
     if len(input_dirs):
-        input_namespace = input_dirs.replace("/", "\\")+"\\"
+        input_namespace = input_dirs.replace(os.sep, "\\")+"\\"
 
     matches = []
 
@@ -167,13 +167,13 @@ def getNamespaceName(input, relative = False):
     namespace_name = input[:class_name_start]
 
     if relative:
-        prefix = getWorkingDirectory().replace(getSourceRoot(getProjectRoot())+"/", "")
+        prefix = getWorkingDirectory().replace(getSourceRoot(getProjectRoot())+os.sep, "")
         if len(prefix) > 0:
             if len(namespace_name) > 0:
                 prefix += "\\"
             namespace_name = prefix+namespace_name
 
-    return namespace_name.replace("/", "\\")
+    return namespace_name.replace(os.sep, "\\")
 
 """
     Returns the filename for the given input.
@@ -199,7 +199,7 @@ def getFilenameFromInput(input, namespace, relative = False, interface = False):
     if interface:
         interface_part = "Interface"
 
-    return path+"/"+input.replace("\\", "/")+interface_part+".php"
+    return path+os.sep+input.replace("\\", os.sep)+interface_part+".php"
 
 """
     Creates the given file (and the directory if necessary) and writes the content to it.
@@ -212,7 +212,7 @@ def createPhpFile(file, contents):
         os.makedirs(os.path.dirname(file))
     open(file, "w")
     view = sublime.active_window().open_file(file)
-    view.set_syntax_file("Packages/php-extended/PHP.tmLanguage")
+    view.set_syntax_file("Packages"+os.sep+"php-extended"+os.sep+"PHP.tmLanguage")
     sublime.set_timeout(lambda: insertAndSave(view, contents), 100)
 
 """

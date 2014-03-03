@@ -24,7 +24,7 @@ def getProjectRoot():
     if sublime.active_window().project_file_name() is not None:
         data = sublime.active_window().project_data()
         current_dir = os.path.realpath(
-            os.path.dirname(sublime.active_window().project_file_name())+"/"+data["folders"][0]["path"]
+            os.path.dirname(sublime.active_window().project_file_name())+os.sep+data["folders"][0]["path"]
         )
     else:
         current_dir = getWorkingDirectory()
@@ -32,7 +32,7 @@ def getProjectRoot():
             sublime.message_dialog("Could not find project root or current working directory.")
             return None
 
-        while current_dir is not "/" and not isRootDir(current_dir):
+        while current_dir is not os.sep and not isRootDir(current_dir):
             current_dir = os.path.dirname(current_dir)
 
     return current_dir
@@ -41,16 +41,16 @@ def getProjectRoot():
     Returns whether the given directory is the project root directory.
 """
 def isRootDir(root_dir):
-    if os.path.exists(root_dir+"/.sublime-project"):
+    if os.path.exists(root_dir+os.sep+".sublime-project"):
         return True
 
-    if os.path.exists(root_dir+"/.composer.json"):
+    if os.path.exists(root_dir+os.sep+".composer.json"):
         return True
 
-    if os.path.exists(root_dir+"/src"):
+    if os.path.exists(root_dir+os.sep+"src"):
         return True
 
-    if os.path.exists(root_dir+"/lib"):
+    if os.path.exists(root_dir+os.sep+"lib"):
         return True
 
     return False
@@ -60,19 +60,19 @@ def isRootDir(root_dir):
 """
 def getSourceDir(project_root):
     source_dir = getProjectSetting("source_dir")
-    if source_dir and os.path.exists(project_root+"/"+source_dir):
+    if source_dir and os.path.exists(project_root+os.sep+source_dir):
         return source_dir
 
     source_dir = Pref.default_source_dir
-    if source_dir and os.path.exists(project_root+"/"+source_dir):
+    if source_dir and os.path.exists(project_root+os.sep+source_dir):
         return source_dir
 
     source_dir = "src"
-    if os.path.exists(project_root+"/"+source_dir):
+    if os.path.exists(project_root+os.sep+source_dir):
         return source_dir
 
     source_dir = "lib"
-    if os.path.exists(project_root+"/"+source_dir):
+    if os.path.exists(project_root+os.sep+source_dir):
         return source_dir
 
     return ""
@@ -83,7 +83,7 @@ def getSourceDir(project_root):
 def getSourceRoot(project_root):
     source_dir = getSourceDir(project_root)
     if source_dir:
-        source_dir = "/"+source_dir
+        source_dir = os.sep+source_dir
 
     return project_root+source_dir
 
@@ -108,10 +108,10 @@ def getComposerData():
     if not current_dir:
         current_dir = getProjectRoot()
 
-    while not current_dir == "/" and not os.path.exists(current_dir+"/composer.json"):
+    while not current_dir == os.sep and not os.path.exists(current_dir+os.sep+"composer.json"):
         current_dir = os.path.dirname(current_dir)
 
-    composerFilename = current_dir+"/composer.json"
+    composerFilename = current_dir+os.sep+"composer.json"
     if not os.path.exists(composerFilename):
         return null
 
