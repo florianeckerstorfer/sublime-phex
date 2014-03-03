@@ -4,6 +4,8 @@ import os
 import re
 import json
 
+VIEW_NAME = "Phex"
+
 class Pref:
     @staticmethod
     def load():
@@ -34,6 +36,21 @@ class PhexInputBase(PhexBase):
 class PhexCreateClassCommand(PhexInputBase):
     INPUT_PANEL_CAPTION = 'Class name:'
 
+    def run(self):
+        self.input_panel_view = self.window.show_input_panel(
+            self.INPUT_PANEL_CAPTION,
+            "",
+            self.on_done,
+            self.on_update,
+            self.on_cancel
+        )
+
+        self.input_panel_view.set_name(VIEW_NAME)
+        self.input_panel_view.settings().set("auto_complete_commit_on_tab", False)
+        self.input_panel_view.settings().set("tab_completion", False)
+        self.input_panel_view.settings().set("translate_tabs_to_spaces", False)
+        self.input_panel_view.settings().set("anf_panel", True)
+
     def on_done(self, input):
         content = "<?php\n\n%namespace%/**\n * %class_name%\n *\n%author%%copyright%%license% */\nclass %class_name%\n{\n}\n"
         if re.search("^~", input):
@@ -53,8 +70,34 @@ class PhexCreateClassCommand(PhexInputBase):
 
         createPhpFile(filename, content)
 
+    def on_update(self, input):
+        match = getNamespaceAutocompletion(input)
+
+        if not match == None:
+            self.input_panel_view.run_command("anf_replace", {"content": match})
+        else:
+            pass
+
+    def on_cancel(self):
+        pass
+
 class PhexCreateInterfaceCommand(PhexInputBase):
     INPUT_PANEL_CAPTION = 'Interface name:'
+
+    def run(self):
+        self.input_panel_view = self.window.show_input_panel(
+            self.INPUT_PANEL_CAPTION,
+            "",
+            self.on_done,
+            self.on_update,
+            self.on_cancel
+        )
+
+        self.input_panel_view.set_name(VIEW_NAME)
+        self.input_panel_view.settings().set("auto_complete_commit_on_tab", False)
+        self.input_panel_view.settings().set("tab_completion", False)
+        self.input_panel_view.settings().set("translate_tabs_to_spaces", False)
+        self.input_panel_view.settings().set("anf_panel", True)
 
     def on_done(self, input):
         content = "<?php\n\n%namespace%/**\n * %interface_name%\n *\n%author%%copyright%%license% */\ninterface %interface_name%\n{\n}\n"
@@ -75,6 +118,52 @@ class PhexCreateInterfaceCommand(PhexInputBase):
         content = content.replace("%license%", getLicensePhpDoc(input))
 
         createPhpFile(filename, content)
+
+    def on_update(self, input):
+        match = getNamespaceAutocompletion(input)
+
+        if not match == None:
+            self.input_panel_view.run_command("anf_replace", {"content": match})
+        else:
+            pass
+
+    def on_cancel(self):
+        pass
+
+def getNamespaceAutocompletion(input):
+    if not input.endswith("\t"):
+        return None
+
+    input = input.replace("\t", "")
+
+    input_dirs = ""
+    if not input.find("\\") == -1:
+        input_dirs = input.split("\\")
+        input_dirs = os.sep+os.sep.join(input_dirs[:-1])
+
+    input_namespace = ""
+    if len(input_dirs):
+        input_namespace = input_dirs.replace("/", "\\")+"\\"
+
+    matches = []
+
+    source_root = getSourceRoot(getProjectRoot())
+
+    for dirname in os.listdir(source_root+input_dirs):
+        if os.path.isdir(source_root+input_dirs+os.sep+dirname):
+            namespace = dirname.replace(source_root, "")
+            namespace = input_namespace+namespace.replace(os.sep, "\\")
+            if namespace.startswith("\\"):
+                namespace = namespace[1:]
+            if re.match(input.replace("\\", ";"), namespace.replace("\\", ";"), re.I):
+                matches.append(namespace)
+
+    best_match = input
+    for match in matches:
+        if match != input:
+            best_match = match
+
+    return best_match
 
 
 def getProjectSetting(setting_name):
@@ -238,7 +327,7 @@ def getNamespaceName(input, relative = False):
 """
 def getFilenameFromInput(input, namespace, relative = False, interface = False):
     if relative:
-        path = getCurrentDirectory()
+        path = getWorkingDirectory()
     else:
         path = getSourceRoot(getProjectRoot())
         psr4Namespaces = getComposerPsr4Namespaces()
@@ -277,7 +366,7 @@ def getWorkingDirectory():
     Returns the data from Composer file
 """
 def getComposerData():
-    current_dir = getCurrentDirectory()
+    current_dir = getWorkingDirectory()
     if not current_dir:
         current_dir = getProjectRoot()
 
