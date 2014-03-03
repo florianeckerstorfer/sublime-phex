@@ -149,6 +149,7 @@ def getNamespaceAutocompletion(input):
 
     source_root = getSourceRoot(getProjectRoot())
 
+    min_length = None
     for dirname in os.listdir(source_root+input_dirs):
         if os.path.isdir(source_root+input_dirs+os.sep+dirname):
             namespace = dirname.replace(source_root, "")
@@ -157,11 +158,20 @@ def getNamespaceAutocompletion(input):
                 namespace = namespace[1:]
             if re.match(input.replace("\\", ";"), namespace.replace("\\", ";"), re.I):
                 matches.append(namespace)
+                if min_length is None or len(namespace) < min_length:
+                    min_length = len(namespace)
 
-    best_match = input
-    for match in matches:
-        if match != input:
-            best_match = match
+    if len(matches) == 1:
+        return matches[0]
+
+    best_match = ""
+    for i in range(0, min_length):
+        letter = None
+        for match in matches:
+            if letter is None:
+                letter = match[i]
+            elif letter == match[i]:
+                best_match += match[i]
 
     return best_match
 
