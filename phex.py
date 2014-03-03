@@ -238,7 +238,7 @@ def getNamespaceName(input, relative = False):
 """
 def getFilenameFromInput(input, namespace, relative = False, interface = False):
     if relative:
-        path = getCurrentDirectory()
+        path = getWorkingDirectory()
     else:
         path = getSourceRoot(getProjectRoot())
         psr4Namespaces = getComposerPsr4Namespaces()
@@ -277,7 +277,7 @@ def getWorkingDirectory():
     Returns the data from Composer file
 """
 def getComposerData():
-    current_dir = getCurrentDirectory()
+    current_dir = getWorkingDirectory()
     if not current_dir:
         current_dir = getProjectRoot()
 
