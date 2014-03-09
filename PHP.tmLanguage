@@ -2450,6 +2450,12 @@
 	                <key>name</key>
 	                <string>keyword.other.phpdoc.php</string>
 		        </dict>
+		        <dict>
+		        	<key>match</key>
+		        	<string>\@SuppressWarnings</string>
+		        	<key>name</key>
+		        	<string>keyword.other.phpdoc.php</string>
+		        </dict>
 				<dict>
 					<key>captures</key>
 					<dict>
