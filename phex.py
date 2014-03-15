@@ -111,7 +111,6 @@ def loadTemplate(name, variables = {}):
     content = open(filename).read()
 
     for (name, value) in variables.items():
-        print(name+": "+value)
         content = content.replace("%"+name+"%", value)
 
     return content
