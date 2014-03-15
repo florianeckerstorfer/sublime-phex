@@ -3,7 +3,7 @@
 %namespace_statement%/**
  * %interface_name%
  *
- * %author_phpdoc%%copyright_phpdoc%%license_phpdoc% */
+%author_phpdoc%%copyright_phpdoc%%license_phpdoc% */
 interface %interface_name%
 {
     ${1}
