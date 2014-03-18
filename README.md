@@ -31,7 +31,7 @@ The *Create Class* command allows you to create a new PHP class. This currently 
 
 ![Create Class Screencast](https://raw.github.com/florianeckerstorfer/sublime-phex/master/docs/img/create-class.gif)
 
-PSR-4 is supported by the *Create Class* command, except when using relative names (`~` operator). Suppose the following `composer.json` exists in the project root directory:
+Phex's *Create Class* command supports PSR-4, except when using relative names (`~` operator). Suppose the following `composer.json` exists in the project root directory:
 
 ```json
 {
@@ -43,7 +43,7 @@ PSR-4 is supported by the *Create Class* command, except when using relative nam
 }
 ```
 
-When the *Create Class* command is invoked with `Phex\Foo\Bar` a class with the following properties is created:
+Invoking the *Create Class* command with `Phex\Foo\Bar` creates a class with the following properties:
 
 - Class name: `Bar`
 - Namespace: `Phex\Foo\Bar`
@@ -57,12 +57,19 @@ Works like the *Create Class* command, but creates an interface instead of a cla
 
 ![Create Interface Screencast](https://raw.github.com/florianeckerstorfer/sublime-phex/master/docs/img/create-interface.gif)
 
+### Insert Class Name
+
+The *Insert Class Name* command opens a fuzzy search panel allowing you to select a class and insertes the selected
+class into the view. This command also works outside of the PHP scope and therefore helps you when writing
+PHPDoc or other documentation files.
+
+![Isert Class Name Screencast](https://raw.github.com/florianeckerstorfer/sublime-phex/master/docs/img/insert-class-name.gif)
 
 Snippets
 --------
 
 PHP Extended contains all snippets from the default PHP package from Sublime Text 3 (some slightly modified to match the
-Symfony 2 coding standard) and adds various new snippets.
+Symfony 2 coding standard) and adds new snippets.
 
 The snippets are designed to be as short as possible and still intuitive.
 
@@ -223,11 +230,11 @@ Snippets for PHPDoc.
 Syntax Highlighting
 -------------------
 
-Currently Phex adds syntax highlighting for a few things. I hope to extend this in the future.
+Currently Phex extends the syntax highlighting provided by the default PHP package. I hope to extend this in the future.
 
 ### Annotations
 
-The default `PHP.tmlanguage` only has support for PHPDoc annotations. Phex adds support for various popular libraries
+The default `PHP.tmlanguage` only has support for PHPDoc annotations. Phex adds support for popular libraries
 and their annotations.
 
 #### Doctrine MongoDB ODM

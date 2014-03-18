@@ -6,5 +6,9 @@
     {
         "caption": "Phex: Create Interface",
         "command": "phex_create_interface"
+    },
+    {
+        "caption": "Phex: Insert class name",
+        "command": "phex_insert_class_name"
     }
 ]
