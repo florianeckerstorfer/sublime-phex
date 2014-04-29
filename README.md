@@ -63,7 +63,20 @@ The *Insert Class Name* command opens a fuzzy search panel allowing you to selec
 class into the view. This command also works outside of the PHP scope and therefore helps you when writing
 PHPDoc or other documentation files.
 
-![Isert Class Name Screencast](https://raw.github.com/florianeckerstorfer/sublime-phex/master/docs/img/insert-class-name.gif)
+![Insert Class Name Screencast](https://raw.github.com/florianeckerstorfer/sublime-phex/master/docs/img/insert-class-name.gif)
+
+### Insert Namespace
+
+The *Insert Namespace* command inserts the namespace statement of the active file. I recommend setting up a keyboard shortcut, for example, `Super+Alt+n`. You can do this by going to the *Preferences* menu and selecting *Key Bindings - User*. Insert the following snippet:
+
+```json
+[
+    // Other key bindings
+    {
+        "keys": ["super+alt+n"], "command": "phex_insert_namespace"
+    }
+]
+```
 
 Snippets
 --------

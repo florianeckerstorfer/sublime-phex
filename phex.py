@@ -137,6 +137,25 @@ class PhexInsertClassNameExecuteCommand(sublime_plugin.TextCommand):
         loc = self.view.sel()[-1].end()
         self.view.insert(edit, loc, class_name)
 
+class PhexInsertNamespaceCommand(sublime_plugin.TextCommand):
+    def run(self, edit):
+        projectRoot = getProjectRoot()
+        sourceRoot = getSourceRoot(projectRoot)
+        sourceDir = sourceRoot.replace(projectRoot+os.sep, "")
+        namespace = self.view.file_name()
+        namespace = namespace.replace(sourceRoot+os.sep, '')
+        namespace = namespace.replace('.php', '')
+        namespace = namespace.replace(os.sep, '\\')
+
+        for (ns, dirName) in getComposerPsr4Namespaces().items():
+            if dirName == sourceDir:
+                namespace = ns+namespace
+                break
+
+        print(namespace)
+        loc = self.view.sel()[-1].end()
+        self.view.insert(edit, loc, "namespace "+namespace+";")
+
 
 #
 # Template Methods

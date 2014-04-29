@@ -10,5 +10,9 @@
     {
         "caption": "Phex: Insert class name",
         "command": "phex_insert_class_name"
+    },
+    {
+        "caption": "Phex: Insert namespace",
+        "command": "phex_insert_namespace"
     }
 ]
