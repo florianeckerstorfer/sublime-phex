@@ -129,14 +129,12 @@ class PhexInsertClassNameCommand(sublime_plugin.TextCommand):
             class_name += names[0][1]
         except IndexError:
             pass
-        print(class_name)
 
         self.view.run_command("phex_insert_class_name_execute", {"class_name": class_name})
 
 class PhexInsertClassNameExecuteCommand(sublime_plugin.TextCommand):
     def run(self, edit, class_name):
         loc = self.view.sel()[-1].end()
-        print(str(loc))
         self.view.insert(edit, loc, class_name)
 
 
