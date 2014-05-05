@@ -146,6 +146,7 @@ class PhexInsertNamespaceCommand(sublime_plugin.TextCommand):
         namespace = namespace.replace(sourceRoot+os.sep, '')
         namespace = namespace.replace('.php', '')
         namespace = namespace.replace(os.sep, '\\')
+        namespace = namespace[0:namespace.rfind('\\')]
 
         for (ns, dirName) in getComposerPsr4Namespaces().items():
             if dirName == sourceDir:
