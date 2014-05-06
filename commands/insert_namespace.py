@@ -17,7 +17,7 @@ class PhexInsertNamespaceCommand(sublime_plugin.TextCommand):
         # Remove class name
         namespace = namespace[0:namespace.rfind('\\')]
 
-        for (ns, dirName) in getComposerPsr4Namespaces().items():
+        for (ns, dirName) in getComposerData().getPsr4Namespaces().items():
             if dirName == sourceDir:
                 namespace = ns+namespace
                 break

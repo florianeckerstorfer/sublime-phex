@@ -105,37 +105,47 @@ def getSourceRoot(project_root):
 
     return project_root+source_dir
 
-
-"""
-    Returns the data from Composer file.
-"""
 def getComposerData():
-    current_dir = getWorkingDirectory()
-    if not current_dir:
-        current_dir = getProjectRoot()
+    return COMPOSER_DATA
 
-    while not current_dir == os.sep and not os.path.exists(current_dir+os.sep+"composer.json"):
-        current_dir = os.path.dirname(current_dir)
+class ComposerData():
+    data = None
+    namespaces = None
 
-    composerFilename = current_dir+os.sep+"composer.json"
-    if not os.path.exists(composerFilename):
-        return {}
+    def getData(self, force = False):
+        if self.data != None and not force:
+            return self.data
 
-    json_data=open(composerFilename)
-    data = json.load(json_data)
-    json_data.close()
+        current_dir = getWorkingDirectory()
+        if not current_dir:
+            current_dir = getProjectRoot()
 
-    return data
+        while not current_dir == os.sep and not os.path.exists(current_dir+os.sep+"composer.json"):
+            current_dir = os.path.dirname(current_dir)
 
-"""
-    Returns the PSR-4 namespaces from the Composer file.
-"""
-def getComposerPsr4Namespaces():
-    data = getComposerData()
-    try:
-        namespaces = {}
-        for (namespace, path) in data["autoload"]["psr-4"].items():
-            namespaces[namespace] = path
-        return namespaces
-    except KeyError:
-        return {}
+        composerFilename = current_dir+os.sep+"composer.json"
+        if not os.path.exists(composerFilename):
+            self.data = {}
+            return self.data
+
+        json_data=open(composerFilename)
+        self.data = json.load(json_data)
+        json_data.close()
+
+        return self.data
+
+    def getPsr4Namespaces(self, force = False):
+        if self.namespaces != None and not force:
+            return self.namespaces
+
+        data = self.getData(force)
+        try:
+            self.namespaces = {}
+            for (namespace, path) in data["autoload"]["psr-4"].items():
+                self.namespaces[namespace] = path
+        except KeyError:
+            self.namespaces = {}
+
+        return self.namespaces
+
+COMPOSER_DATA = ComposerData();

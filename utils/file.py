@@ -119,7 +119,7 @@ def getFilenameFromInput(input, namespace, relative = False, interface = False):
         path = getWorkingDirectory()
     else:
         path = getSourceRoot(getProjectRoot())
-        psr4Namespaces = getComposerPsr4Namespaces()
+        psr4Namespaces = getComposerData().getPsr4Namespaces()
         for (ns, nspath) in psr4Namespaces.items():
             ns = re.sub("\\$", "", ns)
             namespace += "\\"
