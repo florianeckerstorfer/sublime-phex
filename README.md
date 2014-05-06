@@ -78,6 +78,38 @@ The *Insert Namespace* command inserts the namespace statement of the active fil
 ]
 ```
 
+Configuration
+-------------
+
+Phex supports multiple levels of configuration. Currently you can set the author, license and copyright information used by Phex in the PHPDoc when creating new classes and interfaces. You can set your default system settings by creating a file called `phex.sublime-settings` in Sublime's `User/` directory.
+
+For example, this file could look like:
+
+```json
+{
+    "phex_default_author": "Florian Eckerstorfer <florian@eckerstorfer.co>",
+    "phex_default_license": "http://opensource.org/licenses/MIT The MIT License",
+    "phex_default_copyright": "(c) 2014 Florian Eckerstorfer"
+}
+```
+
+Additionally you can change these settings on a per-project basis. Your `.sublime-project` file could look like:
+
+```json
+{
+    "folders": [
+        // ...
+    ],
+    "settings": {
+        "author": "Florian Eckerstorfer",
+        "copyright": "2014 Florian Eckerstorfer",
+        "license": "http://opensource.org/licenses/MIT The MIT License"
+    }
+}
+```
+
+*Note:* You need to open the project in order to allow Phex to access these settings. If you open the directory (for example, by using the command line helper `subl dir_name`) Phex cannot access the settings and will fall back to the global settings.
+
 Snippets
 --------
 

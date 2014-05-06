@@ -343,30 +343,48 @@ def insertAndSave(view, contents):
 """
 def getAuthorPhpDoc(input):
     author = ""
-    if Pref.default_author:
-        author = " * @author    "+Pref.default_author+"\n"
+    if getProjectSetting("author"):
+        author = getProjectSetting("author")
+    elif Pref.default_author:
+        author = Pref.default_author
 
-    return author
+    author_string = ""
+    if author:
+        author_string = " * @author    "+author+"\n"
+
+    return author_string
 
 """
     Returns the @copyright PHPDoc
 """
 def getCopyrightPhpDoc(input):
     copyright = ""
-    if Pref.default_copyright:
-        copyright = " * @copyright "+Pref.default_copyright+"\n"
+    if getProjectSetting("copyright"):
+        copyright = getProjectSetting("copyright")
+    elif Pref.default_copyright:
+        copyright = Pref.default_copyright
 
-    return copyright
+    copyright_string = ""
+    if copyright:
+        copyright_string = " * @copyright "+copyright+"\n"
+
+    return copyright_string
 
 """
     Returns the @license PHPDoc
 """
 def getLicensePhpDoc(input):
     license = ""
-    if Pref.default_license:
-        license = " * @license   "+Pref.default_license+"\n"
+    if getProjectSetting("license"):
+        license = getProjectSetting("license")
+    elif Pref.default_license:
+        license = Pref.default_license
 
-    return license
+    license_string = ""
+    if license:
+        license_string = " * @license   "+license+"\n"
+
+    return license_string
 
 #
 # Project utils
