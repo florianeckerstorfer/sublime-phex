@@ -1,5 +1,6 @@
 import os
 import sublime
+import re
 from .project import *
 
 """

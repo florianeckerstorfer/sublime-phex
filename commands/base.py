@@ -1,6 +1,8 @@
 import sublime_plugin
 from ..utils import *
 
+VIEW_NAME = "Phex"
+
 class PhexBase(sublime_plugin.WindowCommand):
     def display_results(self):
         display = ShowInPanel(self.window)
