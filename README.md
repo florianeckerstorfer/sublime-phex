@@ -93,7 +93,7 @@ For example, this file could look like:
 }
 ```
 
-Additionally you can change these settings on a per-project basis. Your `.sublime-project` file could look like:
+Additionally you can change these settings on a per-project basis. There exists a setting for the `package` PHPDoc tag. Your `.sublime-project` file could look like:
 
 ```json
 {
@@ -101,6 +101,7 @@ Additionally you can change these settings on a per-project basis. Your `.sublim
         // ...
     ],
     "settings": {
+        "package": "florianeckerstorfer/phex-test",
         "author": "Florian Eckerstorfer",
         "copyright": "2014 Florian Eckerstorfer",
         "license": "http://opensource.org/licenses/MIT The MIT License"

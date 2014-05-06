@@ -71,6 +71,7 @@ class PhexCreateClassCommand(PhexInputBase):
         content = loadTemplate("class", {
             "class_name":          getClassName(input),
             "namespace_statement": getNamespace(namespace_name),
+            "package_phpdoc":      getPackagePhpDoc(input),
             "author_phpdoc":       getAuthorPhpDoc(input),
             "copyright_phpdoc":    getCopyrightPhpDoc(input),
             "license_phpdoc":      getLicensePhpDoc(input)
@@ -94,6 +95,7 @@ class PhexCreateInterfaceCommand(PhexInputBase):
         content = loadTemplate("interface", {
             "interface_name":      getInterfaceName(input),
             "namespace_statement": getNamespace(namespace_name),
+            "package_phpdoc":      getPackagePhpDoc(input),
             "author_phpdoc":       getAuthorPhpDoc(input),
             "copyright_phpdoc":    getCopyrightPhpDoc(input),
             "license_phpdoc":      getLicensePhpDoc(input)
@@ -385,6 +387,20 @@ def getLicensePhpDoc(input):
         license_string = " * @license   "+license+"\n"
 
     return license_string
+
+"""
+    Returns the @package PHPDoc
+"""
+def getPackagePhpDoc(input):
+    package = ""
+    if getProjectSetting("package"):
+        package = getProjectSetting("package")
+
+    package_string = ""
+    if package:
+        package_string = " * @package   "+package+"\n"
+
+    return package_string
 
 #
 # Project utils
