@@ -108,9 +108,16 @@ def getSourceRoot(project_root):
 def getComposerData():
     return COMPOSER_DATA
 
+def clearComposerCache():
+    COMPOSER_DATA.clearCache()
+
 class ComposerData():
     data = None
     namespaces = None
+
+    def clearCache(self):
+        self.data = None
+        self.namespaces = None
 
     def getData(self, force = False):
         if self.data != None and not force:

@@ -16,3 +16,6 @@ def loadTemplate(name, variables = {}):
     TEMPLATES[name] = content
 
     return content
+
+def clearTemplateCache():
+    TEMPLATES = dict()

@@ -14,5 +14,9 @@
     {
         "caption": "Phex: Insert namespace",
         "command": "phex_insert_namespace"
+    },
+    {
+        "caption": "Phex: Clear cache",
+        "command": "phex_clear_cache"
     }
 ]
