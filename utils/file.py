@@ -3,6 +3,14 @@ import sublime
 import re
 from .project import *
 
+def filenameToClassName(name):
+    source_dir = getSourceDir(getProjectRoot())
+    name = name.replace(source_dir+os.sep, "")
+    name = name.replace(os.sep, "\\")
+    name = name.replace(".php", "")
+    return name
+
+
 """
     Returns the best match for namespace autocompletion based on the given input.
 """

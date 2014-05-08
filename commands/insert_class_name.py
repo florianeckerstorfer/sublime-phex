@@ -5,16 +5,20 @@ from ..utils import *
 
 class PhexInsertClassNameCommand(sublime_plugin.TextCommand):
     php_files = []
+    class_names = []
     def run(self, edit):
         self.php_files = []
-        pattern = re.compile("^(app|src|lib|vendor).*\.php$")
+        self.class_names = []
+
+        pattern = re.compile("^(app|src|lib|libs|vendor).*\.php$")
         root_dir = self.view.window().folders()[0] + os.sep
         for dirpath, sub_folders, files in os.walk(root_dir):
             for file in files:
                 filename = os.path.join(dirpath, file).replace(root_dir, "")
                 if pattern.search(filename):
                     self.php_files.append(filename)
-        self.view.window().show_quick_panel(self.php_files, self.on_select)
+                    self.class_names.append(filenameToClassName(filename))
+        self.view.window().show_quick_panel(self.class_names, self.on_select)
 
     def on_select(self, input):
         root_dir = self.view.window().folders()[0] + os.sep
