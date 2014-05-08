@@ -69,7 +69,11 @@ PHPDoc or other documentation files.
 
 ### Insert Namespace
 
-The *Insert Namespace* command inserts the namespace statement of the active file. I recommend setting up a keyboard shortcut, for example, `Super+Alt+n`. You can do this by going to the *Preferences* menu and selecting *Key Bindings - User*. Insert the following snippet:
+The *Insert Namespace* command inserts the namespace statement of the active file.
+
+![Insert Namespace Screencast](http://tyrion.florian.ec/phex-insert-namespace.gif)
+
+I recommend setting up a keyboard shortcut, for example, `Super+Alt+n`. You can do this by going to the *Preferences* menu and selecting *Key Bindings - User*. Insert the following snippet:
 
 ```json
 [
@@ -83,6 +87,8 @@ The *Insert Namespace* command inserts the namespace statement of the active fil
 ### Create Property
 
 The *Create Property* command inserts the code for a property and the corresponding setter and getter into the active document. Phex also creates the appropriate PHPDoc for property, setter and getter. You can invoke the command and provide either just the property name or type and property name (separated by a space). Types of the form `string[]` will result in a `array` typehint.
+
+![Create Property Screencast](http://tyrion.florian.ec/phex-create-property.gif)
 
 
 Configuration
