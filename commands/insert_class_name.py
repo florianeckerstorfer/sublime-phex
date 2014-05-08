@@ -36,5 +36,6 @@ class PhexInsertClassNameCommand(sublime_plugin.TextCommand):
 
 class PhexInsertClassNameExecuteCommand(sublime_plugin.TextCommand):
     def run(self, edit, class_name):
-        loc = self.view.sel()[-1].end()
-        self.view.insert(edit, loc, class_name)
+        # Replace each selection with the class name
+        for region in self.view.sel():
+            self.view.replace(edit, region, class_name)
