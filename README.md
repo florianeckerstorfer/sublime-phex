@@ -450,6 +450,15 @@ Phex has syntax highlighting for annotations provided by
 - `BraincraftedAssert\Enum`
 
 
+Changelog
+---------
+
+### Version 0.1.1 (8 May 2014)
+
+- Added `Create Property` command
+- `Insert Class Name` command now replaces the current selection with the class name
+- `Insert Class Name` now shows the name of the class (instead of the filename) in the menu
+
 ### Version 0.1 (8 May 2014)
 
 - Initial release
