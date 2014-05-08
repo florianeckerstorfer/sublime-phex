@@ -8,6 +8,10 @@
         "command": "phex_create_interface"
     },
     {
+        "caption": "Phex: Create Property",
+        "command": "phex_create_property"
+    },
+    {
         "caption": "Phex: Insert class name",
         "command": "phex_insert_class_name"
     },

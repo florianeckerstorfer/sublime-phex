@@ -25,6 +25,8 @@ Commands
 
 Phex contains some commands to make it easier for you to work with PHP.
 
+**You can find videos of every command in better quality on the [Phex website](https://florian.ec/phex/).**
+
 ### Create Class
 
 The *Create Class* command allows you to create a new PHP class. This currently only works if you are working in a project. By default the class is created based on the project root folder and if there is a `src` folder in your project root this will be used as base. You can prefix the class with `~` to create the class in the currently active directory, that is, in the directory of the open file.
@@ -77,6 +79,11 @@ The *Insert Namespace* command inserts the namespace statement of the active fil
     }
 ]
 ```
+
+### Create Property
+
+The *Create Property* command inserts the code for a property and the corresponding setter and getter into the active document. Phex also creates the appropriate PHPDoc for property, setter and getter. You can invoke the command and provide either just the property name or type and property name (separated by a space). Types of the form `string[]` will result in a `array` typehint.
+
 
 Configuration
 -------------
@@ -442,6 +449,23 @@ Phex has syntax highlighting for annotations provided by
 
 - `BraincraftedAssert\Enum`
 
+
+### Version 0.1 (8 May 2014)
+
+- Initial release
+- Included commands:
+    - Create class
+    - Create interface
+    - Insert namespace
+    - Insert class name
+- Syntax highlighting for annotations
+    - Doctrine MongoDB ODM
+    - Doctrine ORM
+    - Symfony2 Validation
+    - PHPUnit
+    - Gedmo Doctrine Extensions
+    - Braincrafted Validation
+- Snippets
 
 Author
 ------
